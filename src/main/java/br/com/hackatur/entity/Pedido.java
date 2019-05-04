@@ -1,7 +1,6 @@
 package br.com.hackatur.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -27,14 +26,20 @@ public class Pedido implements Serializable {
 	@Column(name="CD_STATUS")
 	private BigDecimal cdStatus;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="DT_ATUALIZACAO")
-	private LocalDateTime dtAtualizacao;
+	private Date dtAtualizacao;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="DT_PEDIDO")
-	private LocalDateTime dtPedido;
+	private Date dtPedido;
 
 	@Column(name="VL_PEDIDO")
 	private BigDecimal vlPedido;
+
+	//bi-directional many-to-one association to Reserva
+	@OneToMany(mappedBy="pedido")
+	private List<Reserva> reservas;
 
 	public Pedido() {
 	}
@@ -63,19 +68,19 @@ public class Pedido implements Serializable {
 		this.cdStatus = cdStatus;
 	}
 
-	public LocalDateTime getDtAtualizacao() {
+	public Date getDtAtualizacao() {
 		return this.dtAtualizacao;
 	}
 
-	public void setDtAtualizacao(LocalDateTime dtAtualizacao) {
+	public void setDtAtualizacao(Date dtAtualizacao) {
 		this.dtAtualizacao = dtAtualizacao;
 	}
 
-	public LocalDateTime getDtPedido() {
+	public Date getDtPedido() {
 		return this.dtPedido;
 	}
 
-	public void setDtPedido(LocalDateTime dtPedido) {
+	public void setDtPedido(Date dtPedido) {
 		this.dtPedido = dtPedido;
 	}
 
@@ -85,6 +90,28 @@ public class Pedido implements Serializable {
 
 	public void setVlPedido(BigDecimal vlPedido) {
 		this.vlPedido = vlPedido;
+	}
+
+	public List<Reserva> getReservas() {
+		return this.reservas;
+	}
+
+	public void setReservas(List<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
+	public Reserva addReserva(Reserva reserva) {
+		getReservas().add(reserva);
+		reserva.setPedido(this);
+
+		return reserva;
+	}
+
+	public Reserva removeReserva(Reserva reserva) {
+		getReservas().remove(reserva);
+		reserva.setPedido(null);
+
+		return reserva;
 	}
 
 }

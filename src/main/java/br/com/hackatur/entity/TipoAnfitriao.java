@@ -1,73 +1,95 @@
 package br.com.hackatur.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import javax.persistence.*;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.List;
 
 
 /**
  * The persistent class for the TIPO_ANFITRIAO database table.
+ * 
  */
 @Entity
-@Table(name = "TIPO_ANFITRIAO")
-@NamedQuery(name = "TipoAnfitriao.findAll", query = "SELECT t FROM TipoAnfitriao t")
+@Table(name="TIPO_ANFITRIAO")
+@NamedQuery(name="TipoAnfitriao.findAll", query="SELECT t FROM TipoAnfitriao t")
 public class TipoAnfitriao implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-  private static final long serialVersionUID = 1L;
+	@Id
+	@Column(name="CD_TIPO_ANFITRIAO")
+	private long cdTipoAnfitriao;
 
-  @Id
-  @Column(name = "CD_TIPO_ANFITRIAO")
-  private long cdTipoAnfitriao;
+	@Column(name="DS_TIPO_ANFITRIAO")
+	private String dsTipoAnfitriao;
 
-  @Column(name = "DS_TIPO_ANFITRIAO")
-  private String dsTipoAnfitriao;
+	@Temporal(TemporalType.DATE)
+	@Column(name="DT_ATUALIZACAO")
+	private Date dtAtualizacao;
 
-  @Column(name = "DT_ATUALIZACAO")
-  private LocalDateTime dtAtualizacao;
+	@Temporal(TemporalType.DATE)
+	@Column(name="DT_CRIACAO")
+	private Date dtCriacao;
 
-  @Column(name = "DT_CRIACAO")
-  private LocalDateTime dtCriacao;
+	//bi-directional many-to-one association to Anfitriao
+	@OneToMany(mappedBy="tipoAnfitriao")
+	private List<Anfitriao> anfitriaos;
 
-  public TipoAnfitriao() {
-  }
+	public TipoAnfitriao() {
+	}
 
-  public long getCdTipoAnfitriao() {
-    return this.cdTipoAnfitriao;
-  }
+	public long getCdTipoAnfitriao() {
+		return this.cdTipoAnfitriao;
+	}
 
-  public void setCdTipoAnfitriao(long cdTipoAnfitriao) {
-    this.cdTipoAnfitriao = cdTipoAnfitriao;
-  }
+	public void setCdTipoAnfitriao(long cdTipoAnfitriao) {
+		this.cdTipoAnfitriao = cdTipoAnfitriao;
+	}
 
-  public String getDsTipoAnfitriao() {
-    return this.dsTipoAnfitriao;
-  }
+	public String getDsTipoAnfitriao() {
+		return this.dsTipoAnfitriao;
+	}
 
-  public void setDsTipoAnfitriao(String dsTipoAnfitriao) {
-    this.dsTipoAnfitriao = dsTipoAnfitriao;
-  }
+	public void setDsTipoAnfitriao(String dsTipoAnfitriao) {
+		this.dsTipoAnfitriao = dsTipoAnfitriao;
+	}
 
-  public LocalDateTime getDtAtualizacao() {
-    return this.dtAtualizacao;
-  }
+	public Date getDtAtualizacao() {
+		return this.dtAtualizacao;
+	}
 
-  public void setDtAtualizacao(LocalDateTime dtAtualizacao) {
-    this.dtAtualizacao = dtAtualizacao;
-  }
+	public void setDtAtualizacao(Date dtAtualizacao) {
+		this.dtAtualizacao = dtAtualizacao;
+	}
 
-  public LocalDateTime getDtCriacao() {
-    return this.dtCriacao;
-  }
+	public Date getDtCriacao() {
+		return this.dtCriacao;
+	}
 
-  public void setDtCriacao(LocalDateTime dtCriacao) {
-    this.dtCriacao = dtCriacao;
-  }
+	public void setDtCriacao(Date dtCriacao) {
+		this.dtCriacao = dtCriacao;
+	}
+
+	public List<Anfitriao> getAnfitriaos() {
+		return this.anfitriaos;
+	}
+
+	public void setAnfitriaos(List<Anfitriao> anfitriaos) {
+		this.anfitriaos = anfitriaos;
+	}
+
+	public Anfitriao addAnfitriao(Anfitriao anfitriao) {
+		getAnfitriaos().add(anfitriao);
+		anfitriao.setTipoAnfitriao(this);
+
+		return anfitriao;
+	}
+
+	public Anfitriao removeAnfitriao(Anfitriao anfitriao) {
+		getAnfitriaos().remove(anfitriao);
+		anfitriao.setTipoAnfitriao(null);
+
+		return anfitriao;
+	}
 
 }
