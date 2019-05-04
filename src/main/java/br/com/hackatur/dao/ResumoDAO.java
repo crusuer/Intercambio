@@ -90,6 +90,10 @@ public class ResumoDAO {
         resumo.setNrLogradouro(rs.getString("nr_logradouro"));
         resumo.setDsLogradouro(rs.getString("ds_logradouro"));
         resumo.setNrTelefone(rs.getString("nr_telefone"));
+        resumo.setDsTipoInstituicao(rs.getString("ds_tipo_instituicao"));
+        resumo.setDsEmail(rs.getString("ds_email"));
+        resumo.setTipo_endereco(rs.getString("tipo_endereco"));
+        resumo.setNrCodigoPostal(rs.getString("nr_codigo_postal"));
         resumos.add(resumo);
 
       }
